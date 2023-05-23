@@ -45,41 +45,101 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     //$sql = "UPDATE 'individuo' SET 'nome'='" . $data->nome . "','luogoRinvenimento'='" . $data->luogoRinvenimento . "','dataRinvenimento'='" . $data->dataRinvenimento . "','epoca'='" . $data->epoca . "','sessoBiologico'='" . $data->sessoBiologico . "','classeDiEta'='" . $data->classeEta . "','origineGeografica'='" . $data->origineGeografica . "','origineBiologica'='" . $data->origineBiologica . "','pesoCremazione'='" . $data->pesoCremazione . "','volumeCremazione'='" . $data->volumeCremazione . "','stato'='" . $data->stato . "','pesoIndividuo'='" . $data->pesoIndividuo . "','ultimaModifica'='" . time() . "' WHERE id=" . $data->id;
 
-
     $sql = "UPDATE individuo SET ";
 
-    if (isset($data->nome))
-        $sql .= " nome='" . $data->nome . "',";
+    $contatore = 0;
 
-    if (isset($data->luogoRinvenimento))
-        $sql .= "luogoRinvenimento='" . $data->luogoRinvenimento . "',";
 
-    if (isset($data->dataRinvenimento))
-        $sql .= "dataRinvenimento='" . $data->dataRinvenimento . "',";
+    if ($data->nome != '') {
+        if ($contatore == 0) {
+            $sql .= "nome='" . $data->nome . "'";
+            $contatore++;
+        } else {
+            $sql .= ", nome='" . $data->nome . "'";
+        }
+    }
 
-    if (isset($data->ultimaModifica))
-        $sql .= "ultimaModifica='" . time() . "',";
+    if ($data->luogoRinvenimento != '') {
 
-    if (isset($data->classeDiEta))
-        $sql .= "classeDiEta='" . $data->classeDiEta . "',";
+        if ($contatore == 0) {
+            $sql .= "luogoRinvenimento='" . $data->luogoRinvenimento . "'";
+            $contatore++;
+        } else {
+            $sql .= ", luogoRinvenimento='" . $data->luogoRinvenimento . "'";
+        }
 
-    if (isset($data->origineBiologica))
-        $sql .= "origineBiologica='" . $data->origineBiologica . "',";
+    }
 
-    if (isset($data->origineGeografica))
-        $sql .= "origineGeografica='" . $data->origineGeografica . "',";
+    if ($data->dataRinvenimento != '') {
+        if ($contatore == 0) {
+            $sql .= "dataRinvenimento='" . $data->dataRinvenimento . "'";
+            $contatore++;
 
-    if (isset($data->sessoBiologico))
-        $sql .= "sessoBiologico='" . $data->sessoBiologico . "'";
+        } else {
+            $sql .= ", dataRinvenimento='" . $data->dataRinvenimento . "'";
+            ;
+        }
+    }
 
-    $sql .= " WHERE id= " . $data->id;
+    if ($data->ultimaModifica != '') {
+        if ($contatore == 0) {
+            $sql .= "ultimaModifica='" . time() . "'";
+            $contatore++;
+        } else {
+            $sql .= ", ultimaModifica='" . time() . "'";
 
+        }
+
+    }
+
+    if ($data->classeDiEta != '') {
+        if ($contatore == 0) {
+            $sql .= "classeDiEta='" . $data->classeDiEta . "'";
+            $contatore++;
+
+        } else {
+            $sql .= ", classeDiEta='" . $data->classeDiEta . "'";
+
+        }
+    }
+
+    if ($data->origineBiologica != '') {
+        if ($contatore == 0) {
+            $sql .= "origineBiologica='" . $data->origineBiologica . "'";
+            $contatore++;
+        } else {
+            $sql .= ", origineBiologica='" . $data->origineBiologica . "'";
+
+        }
+    }
+
+    if ($data->origineGeografica != '') {
+        if ($contatore == 0) {
+            $sql .= "origineGeografica='" . $data->origineGeografica . "'";
+            $contatore++;
+        } else {
+            $sql .= ", origineGeografica='" . $data->origineGeografica . "'";
+
+        }
+    }
+
+    if ($data->sessoBiologico != '') {
+        if ($contatore == 0) {
+            $sql .= "sessoBiologico='" . $data->sessoBiologico . "'";
+            $contatore++;
+        } else {
+            $sql .= ", sessoBiologico='" . $data->sessoBiologico . "'";
+
+        }
+    }
+
+    $sql .= " WHERE id='" . $data->id . "';";
 
     if (mysqli_query($con, $sql)) {
         echo json_encode(array('response' => 'success'));
 
     } else {
-        echo json_encode(array('response' => 'error', 'error' => "Could not insert record: " . mysqli_error($con)));
+        echo json_encode(array('response' => 'error', 'error' => "Could not insert record: " . mysqli_error($con) . " " . $sql));
     }
 
     $con->close();
