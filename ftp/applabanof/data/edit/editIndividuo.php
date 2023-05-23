@@ -62,10 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($data->luogoRinvenimento != '') {
 
         if ($contatore == 0) {
-            $sql .= "luogoRinvenimento='" . $data->luogoRinvenimento . "'";
+            $sql .= "luogoRinvenimento='" . addslashes($data->luogoRinvenimento) . "'";
             $contatore++;
         } else {
-            $sql .= ", luogoRinvenimento='" . $data->luogoRinvenimento . "'";
+            $sql .= ", luogoRinvenimento='" . addslashes($data->luogoRinvenimento) . "'";
         }
 
     }
@@ -81,16 +81,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if ($data->ultimaModifica != '') {
-        if ($contatore == 0) {
-            $sql .= "ultimaModifica='" . time() . "'";
-            $contatore++;
-        } else {
-            $sql .= ", ultimaModifica='" . time() . "'";
 
-        }
+    if ($contatore == 0) {
+        $sql .= "ultimaModifica='" . time() . "'";
+        $contatore++;
+    } else {
+        $sql .= ", ultimaModifica='" . time() . "'";
 
     }
+
+
 
     if ($data->classeDiEta != '') {
         if ($contatore == 0) {
