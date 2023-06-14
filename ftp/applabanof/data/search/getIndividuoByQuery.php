@@ -43,8 +43,13 @@ if (mysqli_connect_errno()) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input", true));
 
+    /*
     $sql = "SELECT individuo.id,individuo.nome, account.email as creatore, tomba.nome as tomba, account.id as creatoreID  FROM (( individuo INNER JOIN tomba ON individuo.tomba=tomba.id) INNER JOIN account ON individuo.creatore=account.id)
     WHERE individuo.nome LIKE '%" . $data->query . "%' OR account.email LIKE '%" . $data->query . "%' OR tomba.nome LIKE '%" . $data->query . "%'";
+    */
+
+    $sql = "SELECT individuo.id, individuo.nome FROM individuo WHERE individuo.nome LIKE '%" . $data->query . "%'";
+
     $result = $con->query($sql);
 
     if ($result->num_rows > 0) {
