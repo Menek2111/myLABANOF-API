@@ -109,6 +109,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $sql .= ", classePatologia='" . $data->classePatologia . "'";
         }
+    } else {
+        if ($contatore == 0) {
+            $sql .= "classePatologia=null";
+            $contatore++;
+        } else {
+            $sql .= ", classePatologia=null";
+        }
     }
 
 
