@@ -1,5 +1,5 @@
 <?php
-
+//require_once 'jwt_utils.php';
 
 function cors()
 {
@@ -27,7 +27,7 @@ function cors()
 }
 cors();
 
-// Change this to your connection info.
+// Change this to your connection info. 
 $DATABASE_HOST = 'localhost';
 $DATABASE_USER = 'applabanof';
 $DATABASE_PASS = '';
@@ -43,25 +43,29 @@ if (mysqli_connect_errno()) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input", true));
 
+    //$sql = "SELECT * FROM patologie WHERE tomba=" . $data->id;
+    // $result = $con->query($sql);
+
+    //if ($result->num_rows > 0) {
     /*
-    $sql = "SELECT individuo.id,individuo.nome, account.email as creatore, tomba.nome as tomba, account.id as creatoreID  FROM (( individuo INNER JOIN tomba ON individuo.tomba=tomba.id) INNER JOIN account ON individuo.creatore=account.id)
-    WHERE individuo.nome LIKE '%" . $data->query . "%' OR account.email LIKE '%" . $data->query . "%' OR tomba.nome LIKE '%" . $data->query . "%'";
-    */
-
-    $sql = "SELECT individuo.id, individuo.nome FROM individuo WHERE individuo.nome LIKE '%" . $data->query . "%' AND visibilita='1'";
-
-    $result = $con->query($sql);
-
-    if ($result->num_rows > 0) {
-        $rows = array();
-        while ($r = mysqli_fetch_assoc($result)) {
-            $rows[] = $r;
-        }
-        echo json_encode(array('response' => 'success', 'results' => $rows));
-    } else {
-        echo json_encode(array('response' => '0 risultati'));
+    $rows = array();
+    while ($r = mysqli_fetch_assoc($result)) {
+        $rows[] = $r;
     }
+    echo json_encode(array('response' => 'error', 'results' => $rows));
+    exit();
+    */
+    // } else {
 
+    $sql = "DELETE FROM `account` WHERE id=" . $data->id;
+
+    if (mysqli_query($con, $sql)) {
+        echo json_encode(array('response' => "success"));
+        exit();
+    } else {
+        echo json_encode(array('response' => 'error', 'error' => "Could not insert record: " . mysqli_error($con)));
+    }
+    //}
     $con->close();
 }
 ?>
