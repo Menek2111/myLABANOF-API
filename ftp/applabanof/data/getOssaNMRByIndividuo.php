@@ -43,7 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $ossaFlag = false;
 
-    $sql = "SELECT COUNT(tipoOsso.distretto) as numero FROM (osso INNER JOIN tipoOsso ON osso.tipoOsso = tipoOsso.id) WHERE individuo=" . $data->individuo . " AND tipoOsso.distretto=" . $data->distretto . " AND NMR='0'";
+    $sql = "SELECT osso.*, tipoOsso.nome, tipoOsso.distretto
+    FROM (osso INNER JOIN tipoOsso ON tipoOsso.id=osso.tipoOsso) 
+    WHERE osso.individuo='" . $data->individuo . "' AND NMR=1";
     $result = $con->query($sql);
     $ossaRows = array();
     while ($r = $result->fetch_assoc()) {
