@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input", true));
 
     // $sql = "DELETE FROM `patologiaGenerale` WHERE id=" . $data->id;
-    $sql = "DELETE FROM traumaGenerale WHERE id=" . $data->id;
+    $sql = "DELETE FROM tipoOsso WHERE id=" . $data->id;
 
     if (mysqli_query($con, $sql)) {
         echo json_encode(array('response' => "success"));
